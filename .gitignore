@@ -1,7 +1,4 @@
-
 node_modules
-db/database.db
-data/menu.json
 
 .env
 *.log
