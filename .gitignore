@@ -1,0 +1,10 @@
+
+node_modules
+db/database.db
+data/menu.json
+
+.env
+*.log
+
+.DS_Store
+Thumbs.db
