@@ -8,7 +8,7 @@ const PORT = 4001;
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send(`Den här texten är på startsidan!`);
+  res.send(`Denna text är på startsidan!`);
 });
 
 app.listen(PORT, () => {
