@@ -3,6 +3,7 @@
 const express = require("express");
 const app = express();
 const products = require("../data/menu.json");
+const orderRoute = require("./routes/orderRoutes");
 const PORT = 4001;
 
 app.use(express.json());
@@ -11,6 +12,9 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send(`Denna text är på startsidan!`);
 });
+
+// Kopplad till orderRoutes.js
+app.use("/order", orderRoute);
 
 // Lägger in kaffe-informationen som finns i menu.json filen
 // Nu kan den hittas på /api/products
@@ -28,10 +32,6 @@ app.get("/api/products/:id", (req, res) => {
   }
   res.json(product);
 });
-
-// app.post("/api/users", (req, res) => {
-//   return res.send(200);
-// });
 
 // Gör att serven körs på PORT 4001
 app.listen(PORT, () => {
