@@ -3,7 +3,7 @@ const userModel = require('./src/models/userModel');
 const orderModel = require('./src/models/orderModel');
 
 //Skapa en användare
-userModel.createUser("Hassan", "hassan@example.com", (err, user) => {
+userModel.createUser("Hassan", "hassan2@example.com", (err, user) => {
   if (err) return console.error("Fel vid skapande av användare:", err);
   console.log("Användare skapad:", user);
 
