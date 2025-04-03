@@ -80,9 +80,30 @@ function getOrderHistory(userId, callback) {
   });
 }
 
+function getTotalSpentByUser(userId, callback) {
+  const sql = `
+    SELECT oi.quantity, oi.price
+    FROM orders o
+    JOIN order_items oi ON o.id = oi.order_id
+    WHERE o.user_id = ?
+  `;
+
+  db.all(sql, [userId], (err, rows) => {
+    if (err) return callback(err);
+
+    const total = rows.reduce((sum, item) => {
+      return sum + item.quantity * item.price;
+    }, 0);
+
+    callback(null, total);
+  });
+}
+
 module.exports = {
   createOrder,
   addProductToOrder,
   removeProductFromOrder,
-  getOrderHistory
+  getOrderHistory,
+  getTotalSpentByUser
 };
+

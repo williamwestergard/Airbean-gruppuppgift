@@ -7,6 +7,9 @@ const PORT = 4001;
 
 app.use(express.json());
 
+const userRoutes = require('./routes/userRoutes');
+app.use('/users', userRoutes);
+
 app.get("/", (req, res) => {
   res.send(`Denna text är på startsidan!`);
 });
