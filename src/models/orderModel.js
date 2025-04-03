@@ -86,3 +86,19 @@ module.exports = {
   removeProductFromOrder,
   getOrderHistory
 };
+
+// Funktion för att ta bort en order
+function deleteOrder(orderId, callback) {
+  const sql = 'DELETE FROM orders WHERE id = ?';
+  db.run(sql, [orderId], function(err) {
+    if (err) {
+      return callback(err);  // Om det finns ett fel, returnera det
+    }
+    callback(null, this.changes);  // Denna rad returnerar antal rader som ändrades (0 betyder att ingenting togs bort)
+  });
+}
+
+module.exports = {
+  deleteOrder
+};
+
