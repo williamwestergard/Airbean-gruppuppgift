@@ -13,6 +13,7 @@ app.use(cors());
 app.use(express.static("public"));
 
 // Kopplar till respektive fil i "routes" mappen
+// Nu kan dem hittas i http://localhost:4001/api/order etc
 app.use("/api/order", orderRoute);
 app.use("/api/products", productRoute);
 app.use("/api/user", userRoute);
