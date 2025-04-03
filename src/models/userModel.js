@@ -22,3 +22,20 @@ module.exports = {
   createUser,
   getUserById
 };
+
+// Deletefunktionen
+
+// Funktion för att ta bort en användare
+function deleteUser(userId, callback) {
+  const sql = 'DELETE FROM users WHERE id = ?';
+  db.run(sql, [userId], function(err) {
+    if (err) {
+      return callback(err);  // Om det finns ett fel, returnera det
+    }
+    callback(null, this.changes);  // Denna rad returnerar antal rader som ändrades (0 betyder att ingenting togs bort)
+  });
+}
+
+module.exports = {
+  deleteUser
+};
