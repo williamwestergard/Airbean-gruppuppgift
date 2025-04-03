@@ -10,7 +10,12 @@ const PORT = 4001;
 
 app.use(express.json());
 app.use(cors());
-app.use(express.static("public"));
+// app.use(express.static("public"));  <--- Kod för att få frontend att fungera.
+
+// Skräp-kod för att se meddelande på startsidan. Kan tas bort senare.
+app.get("/", (req, res) => {
+  res.send("Det här är startsidan!");
+});
 
 // Kopplar till respektive fil i "routes" mappen
 // Nu kan dem hittas i http://localhost:4001/api/order etc
