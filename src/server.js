@@ -22,8 +22,6 @@ app.get("/", (req, res) => {
 app.use("/api/order", orderRoute);
 app.use("/api/products", productRoute);
 app.use("/api/user", userRoute);
-app.use("/user", userRoute);
-app.use("/order", orderRoute);
 
 // Gör att serven körs på PORT 4001
 app.listen(PORT, () => {

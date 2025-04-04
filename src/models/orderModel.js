@@ -1,5 +1,66 @@
-const db = require('../db');
-const { v4: uuidv4 } = require('uuid');
+const db = require("../db");
+const { v4: uuidv4 } = require("uuid");
+
+// Mattias kod
+const createOrder = (userId, products) => {
+  const orderId = uuidv4(); // Generate unique order ID
+  const status = "pending"; // Default order status
+  const createdAt = new Date().toISOString(); // Get current timestamp
+
+  return new Promise((resolve, reject) => {
+    let totalPrice = 0;
+
+    // Calculate total price
+    products.forEach(({ price, quantity }) => {
+      totalPrice += price * quantity;
+    });
+
+    // Insert order into the orders table
+    db.run(
+      `INSERT INTO orders (id, user_id, status, total_price, created_at) VALUES (?, ?, ?, ?, ?)`,
+      [orderId, userId, status, totalPrice, createdAt],
+      function (err) {
+        if (err) {
+          console.error("Error inserting into orders table:", err.message);
+          return reject(err); // Reject the promise if there's an error
+        }
+
+        // Prepare statement for inserting items into the order_items table
+        const insertItemStmt = db.prepare(
+          `INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)`
+        );
+
+        // Insert each product into the order_items table
+        products.forEach((item) => {
+          if (!item.product_id) {
+            console.error("Missing product_id in items:", item);
+            return reject(new Error("Product ID is required.")); // Reject the promise if product_id is missing
+          }
+
+          insertItemStmt.run(
+            orderId,
+            item.product_id,
+            item.quantity,
+            item.price
+          );
+        });
+
+        // Finalize the prepared statement
+        insertItemStmt.finalize();
+
+        // Resolve the promise with order details
+        resolve({
+          orderId,
+          status,
+          totalPrice,
+          createdAt,
+        });
+      }
+    );
+  });
+};
+
+module.exports = { createOrder };
 
 // Kontrollera om en produkt finns i menyn
 function isValidProduct(productId, callback) {
@@ -10,36 +71,36 @@ function isValidProduct(productId, callback) {
   });
 }
 
-// Skapa en ny order
-function createOrder(userId, items, callback) {
-  const orderId = uuidv4();
-  const now = new Date().toISOString();
+// Skapa en ny order (Samma funktion som Mattias)
+// function createOrder(userId, items, callback) {
+//   const orderId = uuidv4();
+//   const now = new Date().toISOString();
 
-  const insertOrderSQL = `INSERT INTO orders (id, user_id, created_at) VALUES (?, ?, ?)`;
+//   const insertOrderSQL = `INSERT INTO orders (id, user_id, created_at) VALUES (?, ?, ?)`;
 
-  db.run(insertOrderSQL, [orderId, userId, now], function (err) {
-    if (err) return callback(err);
+//   db.run(insertOrderSQL, [orderId, userId, now], function (err) {
+//     if (err) return callback(err);
 
-    const insertItemSQL = `INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)`;
+//     const insertItemSQL = `INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)`;
 
-    let added = 0;
+//     let added = 0;
 
-    items.forEach(item => {
-      isValidProduct(item.productId, (err, valid) => {
-        if (err) return callback(err);
-        if (!valid) return callback(new Error(`Ogiltig produkt: ${item.productId}`));
+//     items.forEach(item => {
+//       isValidProduct(item.productId, (err, valid) => {
+//         if (err) return callback(err);
+//         if (!valid) return callback(new Error(`Ogiltig produkt: ${item.productId}`));
 
-        db.run(insertItemSQL, [orderId, item.productId, item.quantity, item.price], (err) => {
-          if (err) return callback(err);
-          added++;
-          if (added === items.length) {
-            callback(null, { id: orderId, userId, created_at: now, items });
-          }
-        });
-      });
-    });
-  });
-}
+//         db.run(insertItemSQL, [orderId, item.productId, item.quantity, item.price], (err) => {
+//           if (err) return callback(err);
+//           added++;
+//           if (added === items.length) {
+//             callback(null, { id: orderId, userId, created_at: now, items });
+//           }
+//         });
+//       });
+//     });
+//   });
+// }
 
 // Lägg till produkt i befintlig order
 function addProductToOrder(orderId, productId, quantity, price, callback) {
@@ -84,5 +145,5 @@ module.exports = {
   createOrder,
   addProductToOrder,
   removeProductFromOrder,
-  getOrderHistory
+  getOrderHistory,
 };

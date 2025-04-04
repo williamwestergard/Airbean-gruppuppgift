@@ -5,10 +5,11 @@ const dummyGetCode = async (req, res) => {
   res.send("Här är din användare!");
 };
 
+//Funktion för att skapa användare.
 const createUser = async (req, res) => {
   const { name, email, address } = req.body;
 
-  if (!name || !email) {
+  if (!name || !email || !address) {
     return res.status(400).json({ message: "Fält måste fyllas in." });
   }
 
@@ -26,5 +27,5 @@ const createUser = async (req, res) => {
 
 module.exports = {
   createUser,
-  dummyGetCode,
+  dummyGetCode, //Tas bort senare
 };
