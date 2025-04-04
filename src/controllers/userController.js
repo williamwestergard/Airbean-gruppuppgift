@@ -1,10 +1,5 @@
 const UserModel = require("../models/userModule");
 
-//Test för att pröva GET funktionen. Ska tas bort senare
-const dummyGetCode = async (req, res) => {
-  res.send("Här är din användare!");
-};
-
 //Funktion för att skapa användare.
 const createUser = async (req, res) => {
   const { name, email, address } = req.body;
@@ -25,29 +20,38 @@ const createUser = async (req, res) => {
   });
 };
 
-//Funktion för att skapa användare.
-const deleteUser = async (req, res) => {
-  const { userId } = req.body;
+//Funktion för att hitta användare.
+const getUserById = async (req, res) => {
+  const { userId } = req.params;
 
-  if (!userId) {
-    return res.status(400).json({ message: "Användare hittas ej." });
-  }
-
-  //Funktion för att ta bort användare.
-  UserModel.deleteUser({ userId }, (err, user) => {
+  UserModel.getUserById(userId, (err, user) => {
     if (err) {
-      console.error("Error deleting user:", err);
-      return res
-        .status(500)
-        .json({ message: "Serverfel när användare skulle tas bort." });
+      console.error("Error finding user:", err);
+      return res.status(500).json({ message: "Användare hittas ej." });
     }
 
     return res.status(201).json(user);
   });
 };
 
+//Funktion för att ta bort användare.
+const deleteUser = async (req, res) => {
+  const { userId } = req.params;
+
+  if (!userId) {
+    return res.status(400).json({ message: "Användar-ID saknas." });
+  }
+  UserModel.deleteUser(userId, (err) => {
+    if (err) {
+      return res.status(404).json({ message: err.message });
+    }
+
+    return res.status(200).json({ message: "Användare borttagen." });
+  });
+};
+
 module.exports = {
   createUser,
+  getUserById,
   deleteUser,
-  dummyGetCode, //Tas bort senare
 };

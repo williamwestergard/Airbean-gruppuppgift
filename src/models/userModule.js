@@ -51,6 +51,11 @@ function deleteUser(userId, callback) {
     if (err) {
       return callback(err); // Om det finns ett fel, returnera det
     }
+    if (this.changes === 0) {
+      return callback(
+        new Error("Användaren finns inte eller är redan borttagen.") // Om användaren inte finns eller redan tagits bort.
+      );
+    }
     callback(null, this.changes); // Denna rad returnerar antal rader som ändrades (0 betyder att ingenting togs bort)
   });
 }

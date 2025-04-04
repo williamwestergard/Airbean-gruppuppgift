@@ -4,8 +4,8 @@ const userController = require("../controllers/userController");
 
 router.post("/", userController.createUser);
 
-router.delete("/", userController.deleteUser);
+router.delete("/:userId", userController.deleteUser); //Sök DELETE på /api/user/ (det unika user id:et)
 
-router.get("/", userController.dummyGetCode); // tas bort senare
+router.get("/:userId", userController.getUserById); //Sök GET på /api/user/ (det unika user id:et)
 
 module.exports = router;
