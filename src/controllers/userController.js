@@ -25,7 +25,29 @@ const createUser = async (req, res) => {
   });
 };
 
+//Funktion för att skapa användare.
+const deleteUser = async (req, res) => {
+  const { userId } = req.body;
+
+  if (!userId) {
+    return res.status(400).json({ message: "Användare hittas ej." });
+  }
+
+  //Funktion för att ta bort användare.
+  UserModel.deleteUser({ userId }, (err, user) => {
+    if (err) {
+      console.error("Error deleting user:", err);
+      return res
+        .status(500)
+        .json({ message: "Serverfel när användare skulle tas bort." });
+    }
+
+    return res.status(201).json(user);
+  });
+};
+
 module.exports = {
   createUser,
+  deleteUser,
   dummyGetCode, //Tas bort senare
 };

@@ -3,38 +3,34 @@ const { v4: uuidv4 } = require("uuid");
 
 // Mattias kod
 const createOrder = (userId, products) => {
-  const orderId = uuidv4(); // Generate unique order ID
+  const orderId = uuidv4(); // Genererar unika order ID
   const status = "pending"; // Default order status
-  const createdAt = new Date().toISOString(); // Get current timestamp
+  const createdAt = new Date().toISOString(); // Orderns skapade tidpunkt
 
   return new Promise((resolve, reject) => {
     let totalPrice = 0;
-
-    // Calculate total price
+    // Totalt pris
     products.forEach(({ price, quantity }) => {
       totalPrice += price * quantity;
     });
 
-    // Insert order into the orders table
     db.run(
       `INSERT INTO orders (id, user_id, status, total_price, created_at) VALUES (?, ?, ?, ?, ?)`,
       [orderId, userId, status, totalPrice, createdAt],
       function (err) {
         if (err) {
           console.error("Error inserting into orders table:", err.message);
-          return reject(err); // Reject the promise if there's an error
+          return reject(err);
         }
 
-        // Prepare statement for inserting items into the order_items table
         const insertItemStmt = db.prepare(
           `INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)`
         );
 
-        // Insert each product into the order_items table
         products.forEach((item) => {
           if (!item.product_id) {
             console.error("Missing product_id in items:", item);
-            return reject(new Error("Product ID is required.")); // Reject the promise if product_id is missing
+            return reject(new Error("Product ID is required."));
           }
 
           insertItemStmt.run(
@@ -45,10 +41,8 @@ const createOrder = (userId, products) => {
           );
         });
 
-        // Finalize the prepared statement
         insertItemStmt.finalize();
 
-        // Resolve the promise with order details
         resolve({
           orderId,
           status,

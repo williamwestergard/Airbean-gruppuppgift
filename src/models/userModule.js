@@ -42,15 +42,6 @@ function addOrderToUser(userId, orderId, callback) {
   });
 }
 
-// Ta bort en användare
-function deleteUser(userId, callback) {
-  const sql = `DELETE FROM users WHERE id = ?`;
-  db.run(sql, [userId], function (err) {
-    if (err) return callback(err);
-    callback(null, this.changes); // Antal rader som togs bort
-  });
-}
-
 // Deletefunktionen
 
 // Funktion för att ta bort en användare
