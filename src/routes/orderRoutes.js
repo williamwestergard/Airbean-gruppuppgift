@@ -1,7 +1,8 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const orderController = require('../controllers/orderController');
+const { createOrder } = require("../controllers/orderController");
 
-router.post('/', orderController.createOrder); // Anropa createOrder-funktionen
+
+router.post("/", createOrder); // borde vara rätt
 
 module.exports = router;

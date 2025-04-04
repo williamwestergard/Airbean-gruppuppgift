@@ -10,7 +10,7 @@ const PORT = 4001;
 app.use(express.json());
 
 // Koppla order-routes
-app.use("/api", orderRoutes); 
+app.use("/api/order", orderRoutes);
 
 app.get("/", (req, res) => {
   res.send(`Denna text är på startsidan!`);
