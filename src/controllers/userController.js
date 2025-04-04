@@ -1,13 +1,18 @@
-const UserModel = require("../models/userModule(old)"); // Adjust path as needed
+const UserModel = require("../models/userModule");
+
+//Test för att pröva GET funktionen. Ska tas bort senare
+const dummyGetCode = async (req, res) => {
+  res.send("Här är din användare!");
+};
 
 const createUser = async (req, res) => {
-  const { name, email } = req.body;
+  const { name, email, address } = req.body;
 
   if (!name || !email) {
     return res.status(400).json({ message: "Fält måste fyllas in." });
   }
 
-  UserModel.createUser(name, email, (err, user) => {
+  UserModel.createUser({ name, email, address }, (err, user) => {
     if (err) {
       console.error("Error creating user:", err);
       return res
@@ -21,4 +26,5 @@ const createUser = async (req, res) => {
 
 module.exports = {
   createUser,
+  dummyGetCode,
 };

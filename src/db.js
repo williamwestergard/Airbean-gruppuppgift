@@ -28,7 +28,7 @@ db.serialize(() => {
       id TEXT PRIMARY KEY,
       name TEXT NOT NULL,
       email TEXT UNIQUE NOT NULL,
-      address TEXT
+      address TEXT 
     )
   `,
     (err) => {

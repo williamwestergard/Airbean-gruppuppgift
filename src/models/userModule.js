@@ -51,13 +51,6 @@ function deleteUser(userId, callback) {
   });
 }
 
-module.exports = {
-  createUser,
-  getUserById,
-  addOrderToUser,
-  deleteUser,
-};
-
 // Deletefunktionen
 
 // Funktion för att ta bort en användare
@@ -72,5 +65,8 @@ function deleteUser(userId, callback) {
 }
 
 module.exports = {
+  createUser,
+  getUserById,
+  addOrderToUser,
   deleteUser,
 };
