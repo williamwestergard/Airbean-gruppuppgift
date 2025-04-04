@@ -1,10 +1,24 @@
-// Test kod för att servern inte ska krascha.
-// // Ska kopplas till models-filerna
-const UserModel = require("../models/userModel(old)");
+const UserModel = require("../models/userModele(old)"); // Adjust path as needed
 
-const findUser = async (req, res) => {
-  const { userId } = req.body;
-  if (!userId) return res.status(400).json({ message: "Användare hittas ej" });
+const createUser = async (req, res) => {
+  const { name, email } = req.body;
+
+  if (!name || !email) {
+    return res.status(400).json({ message: "Fält måste fyllas in." });
+  }
+
+  UserModel.createUser(name, email, (err, user) => {
+    if (err) {
+      console.error("Error creating user:", err);
+      return res
+        .status(500)
+        .json({ message: "Serverfel vid skapande av användare." });
+    }
+
+    return res.status(201).json(user);
+  });
 };
 
-module.exports = {};
+module.exports = {
+  createUser,
+};
