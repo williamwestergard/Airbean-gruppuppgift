@@ -20,6 +20,45 @@ const createOrder = async (req, res) => {
   }
 };
 
+// Hämta beställning via ID
+const findOrder = async (req, res) => {
+  const { orderId } = req.params;
+
+  orderModel.findOrder(orderId, (err, order) => {
+    if (err) {
+      console.error("Problem att hitta beställningen.", err.message);
+      return res.status(404).json({ message: "Beställningen hittades inte." });
+    }
+
+    return res.status(200).json(order);
+  });
+};
+
+//Funktion för att uppdatera beställningen (fungerar inte än)
+const addProductToOrder = async (req, res) => {
+  const { orderId } = req.params;
+  const { productId, quantity, price } = req.body;
+
+  orderModel.addProductToOrder(
+    orderId,
+    productId,
+    quantity,
+    price,
+    (err, order) => {
+      if (err) {
+        console.error("Kan inte uppdatera beställningen.", err);
+        return res
+          .status(500)
+          .json({ message: "Fel vid uppdatering av beställningen." });
+      }
+
+      return res.status(200).json(order);
+    }
+  );
+};
+
 module.exports = {
   createOrder,
+  findOrder,
+  addProductToOrder,
 };

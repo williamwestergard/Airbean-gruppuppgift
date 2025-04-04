@@ -37,21 +37,33 @@ db.serialize(() => {
       )
     `);
 
-  db.run(`DROP TABLE IF EXISTS orders;`, () => {
-    {
-      // Skapar ordertabellen om den inte finns
-      db.run(
-        `CREATE TABLE IF NOT EXISTS orders (
-        id TEXT PRIMARY KEY,
-        user_id TEXT NOT NULL,
-        status TEXT DEFAULT 'pending',
-        total_price REAL NOT NULL,
-        created_at TEXT NOT NULL,
-        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-      );`
-      );
+  db.run(`DROP TABLE IF EXISTS orders;`, (err) => {
+    if (err) {
+      console.error("Error dropping orders table:", err.message);
+    } else {
+      console.log("Orders table dropped (if it existed).");
     }
+
+    // Skapar orders om den inte finns.
+    db.run(
+      `CREATE TABLE IF NOT EXISTS orders (
+      id TEXT PRIMARY KEY,
+      user_id TEXT NOT NULL,
+      status TEXT DEFAULT 'pending',
+      total_price REAL NOT NULL,
+      created_at TEXT NOT NULL,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    );`,
+      (err) => {
+        if (err) {
+          console.error("Error creating orders table:", err.message);
+        } else {
+          console.log("Orders table created or already exists.");
+        }
+      }
+    );
   });
+
   // Skapar order_items tabellen om den inte finns
   db.run(`
         CREATE TABLE IF NOT EXISTS order_items (
