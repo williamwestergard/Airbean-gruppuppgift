@@ -1,4 +1,4 @@
-const UserModel = require("../models/userModele(old)"); // Adjust path as needed
+const UserModel = require("../models/userModule(old)"); // Adjust path as needed
 
 const createUser = async (req, res) => {
   const { name, email } = req.body;
