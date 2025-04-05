@@ -60,9 +60,26 @@ function deleteUser(userId, callback) {
   });
 }
 
+// Hämta orderhistorik för användare
+function getOrderHistory(userId, callback) {
+  const sql = `
+    SELECT o.id as order_id, o.created_at, p.title, oi.quantity, oi.price
+    FROM orders o
+    JOIN order_items oi ON o.id = oi.order_id
+    JOIN products p ON p.id = oi.product_id
+    WHERE o.user_id = ?
+    ORDER BY o.created_at DESC
+  `;
+  db.all(sql, [userId], (err, rows) => {
+    if (err) return callback(err);
+    callback(null, rows);
+  });
+}
+
 module.exports = {
   createUser,
   getUserById,
   addOrderToUser,
   deleteUser,
+  getOrderHistory,
 };

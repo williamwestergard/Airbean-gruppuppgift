@@ -50,8 +50,28 @@ const deleteUser = async (req, res) => {
   });
 };
 
+//Funktion för att uppdatera beställningen
+const getOrderHistory = async (req, res) => {
+  const { userId } = req.params;
+
+  if (!userId) {
+    return res.status(400).json({ error: "Historik hittas inte." });
+  }
+
+  // Flytta all databaslogik till modellen
+  UserModel.getOrderHistory(userId, (err, result) => {
+    if (err) {
+      console.error("Error while trying to find user history.", err.message);
+      return res.status(500).json({ error: err.message });
+    }
+
+    res.status(200).json(result);
+  });
+};
+
 module.exports = {
   createUser,
   getUserById,
   deleteUser,
+  getOrderHistory,
 };

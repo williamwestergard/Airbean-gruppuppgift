@@ -16,6 +16,7 @@ const createOrder = async (req, res) => {
     // Skicka tillbaka det skapade ordern som svar
     res.status(201).json(order);
   } catch (err) {
+    console.error("Error creating Order.", err.message);
     return res.status(500).json({ error: err.message });
   }
 };
@@ -58,27 +59,24 @@ const removeProductFromOrder = async (req, res) => {
   }
 };
 
-//Funktion för att uppdatera beställningen (fungerar inte än)
+//Funktion för att uppdatera beställningen
 const addProductToOrder = async (req, res) => {
   const { orderId } = req.params;
-  const { productId, quantity, price } = req.body;
+  const { product_id, quantity } = req.body;
 
-  orderModel.addProductToOrder(
-    orderId,
-    productId,
-    quantity,
-    price,
-    (err, order) => {
-      if (err) {
-        console.error("Error updating order.", err);
-        return res
-          .status(500)
-          .json({ message: "Fel vid uppdatering av beställningen." });
-      }
+  if (!product_id || !quantity) {
+    return res.status(400).json({ error: "product_id och quantity krävs." });
+  }
 
-      return res.status(200).json(order);
+  // Flytta all databaslogik till modellen
+  orderModel.addProductToOrder(orderId, product_id, quantity, (err, result) => {
+    if (err) {
+      console.error("Error while trying to add product.", err.message);
+      return res.status(500).json({ error: err.message });
     }
-  );
+
+    res.status(200).json(result);
+  });
 };
 
 module.exports = {
