@@ -55,13 +55,23 @@ const createOrder = (userId, products) => {
 };
 
 //Funktion för att hitta beställning
-const findOrder = (orderId, callback) => {
-  db.get("SELECT * FROM orders WHERE id = ?", [orderId], (err, row) => {
+function findOrder(orderId, callback) {
+  const orderSql = `SELECT * FROM orders WHERE id = ?`;
+  const itemsSql = `SELECT * FROM order_items WHERE order_id = ?`;
+
+  db.get(orderSql, [orderId], (err, order) => {
     if (err) return callback(err);
-    if (!row) return callback(new Error("Order not found"));
-    callback(null, row);
+
+    if (!order) return callback(new Error("Order not found"));
+
+    db.all(itemsSql, [orderId], (err, items) => {
+      if (err) return callback(err);
+
+      order.items = items;
+      callback(null, order);
+    });
   });
-};
+}
 
 // Kontrollera om en produkt finns i menyn
 function isValidProduct(productId, callback) {
@@ -87,11 +97,14 @@ function addProductToOrder(orderId, productId, quantity, price, callback) {
 }
 
 // Ta bort produkt från en order
-function removeProductFromOrder(orderItemId, callback) {
-  const sql = `DELETE FROM order_items WHERE id = ?`;
-  db.run(sql, [orderItemId], function (err) {
-    if (err) return callback(err);
-    callback(null, { success: true });
+function removeProductFromOrder(orderId, productId) {
+  return new Promise((resolve, reject) => {
+    const sql = `DELETE FROM order_items WHERE order_id = ? AND product_id = ?`;
+
+    db.run(sql, [orderId, productId], function (err) {
+      if (err) return reject(err);
+      resolve({ changes: this.changes });
+    });
   });
 }
 

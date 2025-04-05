@@ -20,18 +20,42 @@ const createOrder = async (req, res) => {
   }
 };
 
-// Hämta beställning via ID
+// Hitta beställning via ID
 const findOrder = async (req, res) => {
   const { orderId } = req.params;
 
   orderModel.findOrder(orderId, (err, order) => {
     if (err) {
-      console.error("Problem att hitta beställningen.", err.message);
+      console.error("Error trying to find the order.", err.message);
       return res.status(404).json({ message: "Beställningen hittades inte." });
     }
 
     return res.status(200).json(order);
   });
+};
+
+// Ta bort produkt från order
+const removeProductFromOrder = async (req, res) => {
+  const { orderId, productId } = req.params;
+
+  if (!orderId || !productId) {
+    return res.status(400).json({ error: "OrderId eller productId saknas." });
+  }
+
+  try {
+    const result = await orderModel.removeProductFromOrder(orderId, productId);
+
+    if (result.changes === 0) {
+      return res
+        .status(404)
+        .json({ error: "Produkten hittades inte i ordern." });
+    }
+
+    res.status(200).json({ message: "Produkten togs bort från ordern." });
+  } catch (err) {
+    console.error("Error with trying to remove product.", err);
+    return res.status(500).json({ error: err.message });
+  }
 };
 
 //Funktion för att uppdatera beställningen (fungerar inte än)
@@ -46,7 +70,7 @@ const addProductToOrder = async (req, res) => {
     price,
     (err, order) => {
       if (err) {
-        console.error("Kan inte uppdatera beställningen.", err);
+        console.error("Error updating order.", err);
         return res
           .status(500)
           .json({ message: "Fel vid uppdatering av beställningen." });
@@ -61,4 +85,5 @@ module.exports = {
   createOrder,
   findOrder,
   addProductToOrder,
+  removeProductFromOrder,
 };

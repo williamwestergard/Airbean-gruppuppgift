@@ -39,7 +39,7 @@ const deleteUser = async (req, res) => {
   const { userId } = req.params;
 
   if (!userId) {
-    return res.status(400).json({ message: "Användar-ID saknas." });
+    return res.status(400).json({ message: "Användar-Id saknas." });
   }
   UserModel.deleteUser(userId, (err) => {
     if (err) {
