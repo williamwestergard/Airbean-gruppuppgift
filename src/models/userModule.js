@@ -42,22 +42,6 @@ function addOrderToUser(userId, orderId, callback) {
   });
 }
 
-// Ta bort en användare
-function deleteUser(userId, callback) {
-  const sql = `DELETE FROM users WHERE id = ?`;
-  db.run(sql, [userId], function (err) {
-    if (err) return callback(err);
-    callback(null, this.changes); // Antal rader som togs bort
-  });
-}
-
-module.exports = {
-  createUser,
-  getUserById,
-  addOrderToUser,
-  deleteUser,
-};
-
 // Deletefunktionen
 
 // Funktion för att ta bort en användare
@@ -67,10 +51,35 @@ function deleteUser(userId, callback) {
     if (err) {
       return callback(err); // Om det finns ett fel, returnera det
     }
+    if (this.changes === 0) {
+      return callback(
+        new Error("Användaren finns inte eller är redan borttagen.") // Om användaren inte finns eller redan tagits bort.
+      );
+    }
     callback(null, this.changes); // Denna rad returnerar antal rader som ändrades (0 betyder att ingenting togs bort)
   });
 }
 
+// Hämta orderhistorik för användare
+function getOrderHistory(userId, callback) {
+  const sql = `
+    SELECT o.id as order_id, o.created_at, p.title, oi.quantity, oi.price
+    FROM orders o
+    JOIN order_items oi ON o.id = oi.order_id
+    JOIN products p ON p.id = oi.product_id
+    WHERE o.user_id = ?
+    ORDER BY o.created_at DESC
+  `;
+  db.all(sql, [userId], (err, rows) => {
+    if (err) return callback(err);
+    callback(null, rows);
+  });
+}
+
 module.exports = {
+  createUser,
+  getUserById,
+  addOrderToUser,
   deleteUser,
+  getOrderHistory,
 };
