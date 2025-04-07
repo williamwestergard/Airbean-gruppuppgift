@@ -9,6 +9,7 @@ const userRoute = require("./routes/userRoutes");
 const productModel = require("./models/productModel");
 const PORT = 4001;
 
+// Middleware
 app.use(express.json());
 app.use(cors());
 // app.use(express.static("public"));  <--- Kod för att få frontend att fungera.
