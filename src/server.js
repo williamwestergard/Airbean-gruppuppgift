@@ -6,6 +6,7 @@ const app = express();
 const orderRoute = require("./routes/orderRoutes");
 const productRoute = require("./routes/productRoutes");
 const userRoute = require("./routes/userRoutes");
+const productModel = require("./models/productModel");
 const PORT = 4001;
 
 app.use(express.json());
@@ -22,8 +23,9 @@ app.get("/", (req, res) => {
 app.use("/api/order", orderRoute);
 app.use("/api/products", productRoute);
 app.use("/api/user", userRoute);
-app.use("/user", userRoute);
-app.use("/order", orderRoute);
+
+// Importerar produkterna
+productModel.importMenuData();
 
 // Gör att serven körs på PORT 4001
 app.listen(PORT, () => {
