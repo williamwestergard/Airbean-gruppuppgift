@@ -11,7 +11,7 @@ const getAll = async (req, res) => {
     });
   } catch (error) {
     console.error("Error fetching products:", error.message);
-    res.status(500).json({ error: "Error fetching products" });
+    res.status(500).json({ error: "Produkter hittas inte." });
   }
 };
 
