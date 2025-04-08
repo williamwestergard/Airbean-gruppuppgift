@@ -8,16 +8,13 @@ Vilken lyx! Om det nu bara fanns på riktigt...
 Det här repot är resultatet av ett grupprojekt där vi skapade en backend-server
 till ett fiktivt företag.
 
+Vi har använt oss av:
 - express.js
 - node.js
 - sqlite3
 
-Instruktioner för API: 
 
-
-
-
-## Instruktionerna för att göra en "beställning" till AirBean.
+## Instruktioner till REST API.
 Url:  https://airbean-backend-k7pq.onrender.com
 
 ### Routes:
