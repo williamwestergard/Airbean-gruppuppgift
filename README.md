@@ -46,7 +46,7 @@ Ta bort användaren
 ## GET /products 
 Hitta alla produkter
 
-### GET /products /:id
+### GET /products/:id
 Hitta individuella produkter
 
 <br>
