@@ -18,20 +18,42 @@ Vi har använt oss av:
 Url:  https://airbean-backend-k7pq.onrender.com
 (Ingen nyckel behövs)
 
+**OBS:** Alla endpoints börjar med URL:en /api/
+
 ### Routes:
 
-- /api/user/  --- __Skapa användare__
-  - /api/user/:userid   ---  __Hitta eller radera användare__
-  -  /api/user/history/:userId --- __Se användarens orderhistorik__
+# POST /user
+Skapar en användare med namn, adress och epost.
+
+## GET /user/:userId
+Hitta användare
+
+## GET /user/history/:userId
+Se användarens beställningshistorik
+
+## DELETE /user
+Ta bort användaren
 
 
-- /api/products --- __Se alla produkter i databasen__
-  - /api/products/:id --- __Hitta individuella produkter__
+# GET /products 
+Hitta alla produkter
+
+## GET /products /:id
+Hitta individuella produkter
 
 
-- /api/order --- __Skapa beställning__
-  - /api/order/:orderId --- __Hitta beställning eller lägg till produkt i beställningen__
-  - /api/order/:orderId/product/:productId --- __Ta bort produkt från beställningen__
+# POST /order 
+Skapa beställning.
+
+## GET /order/:orderId
+Hitta beställning
+
+## PATCH /order/:orderId/product/productId
+Lägg till produkt i beställningen
+
+## DELETE /order/:orderId/product/productId
+Ta bort produkt i beställningen
+
 
 
 <br>
