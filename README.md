@@ -32,20 +32,20 @@ Skapar en användare med namn, adress, epost och användar-id.
 }
 ```
 
-# GET /user/:userId
+### GET /user/:userId
 Hitta användare
 
-# GET /user/history/:userId
+### GET /user/history/:userId
 Se användarens beställningshistorik
 
-# DELETE /user/:userId
+### DELETE /user/:userId
 Ta bort användaren
 
 
 ## GET /products 
 Hitta alla produkter
 
-# GET /products /:id
+### GET /products /:id
 Hitta individuella produkter
 
 
@@ -59,13 +59,13 @@ Skapa beställning med beställnings-id där användaren och produkterna har lag
 }
 ```
 
-# GET /order/:orderId
+### GET /order/:orderId
 Hitta beställning
 
-# PATCH /order/:orderId/product/productId
+### PATCH /order/:orderId/product/productId
 Lägg till produkt i beställningen
 
-# DELETE /order/:orderId/product/productId
+### DELETE /order/:orderId/product/productId
 Ta bort produkt i beställningen
 
 
