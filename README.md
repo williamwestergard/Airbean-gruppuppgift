@@ -35,6 +35,7 @@ Url:  https://airbean-backend-k7pq.onrender.com
 
 
 
+
 ### Websockets:
 En del av vår gruppuppgift var att diskutera om hur vi skulle kunna ha använt websockets i projektet.
 Främst tänker vi att vi skulle ha en chatt-funktion där kunden kan prata med en kundservice.
