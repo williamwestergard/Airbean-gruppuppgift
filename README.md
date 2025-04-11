@@ -22,7 +22,7 @@ Url:  https://airbean-backend-k7pq.onrender.com
 
 ### Routes:
 
-# POST /user
+## POST /user
 Skapar en användare med namn, adress, epost och användar-id.
 ```
 {
@@ -42,15 +42,17 @@ Se användarens beställningshistorik
 ### DELETE /user/:userId
 Ta bort användaren
 
+<br>
 
-# GET /products 
+## GET /products 
 Hitta alla produkter
 
 ### GET /products /:id
 Hitta individuella produkter
 
+<br>
 
-# POST /order 
+## POST /order 
 Skapa beställning med beställnings-id där användaren och produkterna har lagts in. 
 ```
 {
