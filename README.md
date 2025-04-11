@@ -57,8 +57,8 @@ Skapa beställning med beställnings-id där användaren och produkterna har lag
 {
   "orderId": "b063cd3b-bff8-42e9-84c0-12f05242ef6d",
   "status": "pending",
-  "totalPrice": 157,
-  "createdAt": "2025-04-11T09:13:54.152Z"
+  "totalPrice": (Sammanlagt pris),
+  "createdAt": "(Beställningens skapelsedatum)"
 }
 ```
 
