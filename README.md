@@ -29,7 +29,8 @@ Skapar en användare med namn, adress, epost och användar-id.
   "name": "Homer",
   "email": "homerjsimpson@gmail.com",
   "address": "Springfield"
-}```
+}
+```
 
 ## GET /user/:userId
 Hitta användare
@@ -55,7 +56,8 @@ Skapa beställning med beställnings-id där användaren och produkterna har lag
   "status": "pending",
   "totalPrice": 157,
   "createdAt": "2025-04-11T09:13:54.152Z"
-}```
+}
+```
 
 ## GET /order/:orderId
 Hitta beställning
