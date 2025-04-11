@@ -20,7 +20,6 @@ Url:  https://airbean-backend-k7pq.onrender.com
 
 **OBS:** Alla endpoints börjar med URL:en /api/
 
-### Routes:
 
 ## POST /user
 Skapar en användare med namn, adress, epost och användar-id.
