@@ -24,12 +24,12 @@ Url:  https://airbean-backend-k7pq.onrender.com
 
 # POST /user
 Skapar en användare med namn, adress, epost och användar-id.
-{
+```{
   "id": "747fd956-6edc-4ddf-9bc7-305a9ff1826d",
   "name": "Homer",
   "email": "homerjsimpson@gmail.com",
   "address": "Springfield"
-}
+}```
 
 ## GET /user/:userId
 Hitta användare
@@ -50,12 +50,12 @@ Hitta individuella produkter
 
 # POST /order 
 Skapa beställning med beställnings-id där användaren och produkterna har lagts in. 
-{
+```{
   "orderId": "b063cd3b-bff8-42e9-84c0-12f05242ef6d",
   "status": "pending",
   "totalPrice": 157,
   "createdAt": "2025-04-11T09:13:54.152Z"
-}
+}```
 
 ## GET /order/:orderId
 Hitta beställning
