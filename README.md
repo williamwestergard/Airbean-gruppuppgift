@@ -34,7 +34,7 @@ Url:  https://airbean-backend-k7pq.onrender.com
   - /api/order/:orderId/product/:productId --- __Ta bort produkt från beställningen__
 
 
-
+<br>
 
 ### Websockets:
 En del av vår gruppuppgift var att diskutera om hur vi skulle kunna ha använt websockets i projektet.
